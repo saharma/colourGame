@@ -22,7 +22,7 @@ body {
 
 #gameWindow{
   position: absolute;
-  width: 420px;
+  width: 500%;
   z-index: 15;
   top: 50%;
   left: 50%;
@@ -31,7 +31,7 @@ body {
 }
 
 
-#timer, #colourButton, #startButton, #pointsCounter{
+#timer, #startButton, #pointsCounter{
   height: 50px;
   width: 200px;
   background: #ff1a75;
@@ -43,6 +43,13 @@ body {
 /* display: none;*/
 }
 
+#colourButton{
+  height: 100px;
+  width: 300px;
+  background: white;
+  font-size: 200%;
+  margin: auto;
+}
 #startButton {
 	display:block;
     margin: 0 auto;
@@ -65,6 +72,7 @@ body {
 <br>
 
 <button id="colourButton">Colour</button>
+<br>
 <div id="timer"></div>
 <p id="pointsCounter">Points</p>
 <p id="highScore"></p>
@@ -86,7 +94,7 @@ var startButton = document.getElementById("startButton");
 var gameWindow = document.getElementById("gameWindow");
 var colorButton = document.getElementById("colorButton");
 var pointsCounter = document.getElementById("pointsCounter");
-
+var container = document.getElementById("container");
 var timer = document.getElementById("timer");
 var colors = ["Gray", "Green", "Orange", "Red", "Blue"];
 var instructions = document.getElementById("instructions");
@@ -115,7 +123,7 @@ function startGame(){
     colourButton.style.display = "block";
     createGrid();
     changeColor();
-    instructions.innerHTML = "Find matching colour!"
+    instructions.innerHTML = "Find the colour written above";
 
 }
 
@@ -125,8 +133,8 @@ function display() {
     var timeDiff = endTime - startTime;
     timeDiff /= 1000;
     var seconds = Math.round(timeDiff % 60);
-    // timeDiff = Math.floor(timeDiff / 60);
-    // var minutes = Math.round(timeDiff % 60);
+    timeDiff = Math.floor(timeDiff / 60);
+    var minutes = Math.round(timeDiff % 60);
     // timeDiff = Math.floor(timeDiff / 60);
     // var hours = Math.round(timeDiff % 24);
     timer.innerHTML = seconds;
@@ -208,9 +216,9 @@ function checkColor(){
  str1 = choice.style.background;
  str2 = colourButton.innerHTML; 
 
-  if(str1.includes(str2.toLowerCase())){
+  if(str1.includes(str2) || str1.includes(str2.toLowerCase())){
   choice.style.border = "solid 2px black";
-  instructions.innerHTML = "Good job. Find next colour.";
+  instructions.innerHTML = "Good job. Find next colour";
   changeColor();
   addPoint();
 }
@@ -225,15 +233,13 @@ function addPoint(){
 }
 
 function checkTime(){
-  if (parseInt(timer.innerHTML) = 59){
+  if (parseInt(timer.innerHTML) == 59){
     alert("Game Over! You scored " + points + " points");   
-    // name = prompt("Please enter your name");
     $("#gameWindow").hide("slow");
     $("#timer").hide("slow");
     $("#colourButton").hide("slow");
     $("#pointsCounter").hide("slow");
-    $("#startButton").show();
-    startTime = new Date();
+    instructions.innerHTML = "Thanks for playing!";
   }
 }
 
